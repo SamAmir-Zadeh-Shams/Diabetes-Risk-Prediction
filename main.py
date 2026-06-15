@@ -7,7 +7,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import classification_report, confusion_matrix
 
-dataset = pd.read_csv("diabetes_prediction_dataset.csv")
+dataset = pd.read_csv("diabetes_prediction_dataset.csv") # create the dataframe using the dataset
 
 x = dataset.iloc[:, :-1]
 y = dataset.iloc[:,-1]
