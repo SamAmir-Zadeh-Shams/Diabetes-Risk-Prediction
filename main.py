@@ -20,18 +20,18 @@ x = dataset # have the x dataframe include all columns except 'diabetes' column
 
 X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.20, stratify=y, random_state= 19) # have X_train be 80% of the x dataframe, y_train be 80% of the y database, X_test be 20% of the x database, and y_test be 20% of the y database, use stratify to preserve the original balance of the dataset, and set random_state equal to a number so it uses the same split in the dataset every time
 
-UnderSample = RandomUnderSampler(sampling_strategy=0.3, random_state=19) 
+UnderSample = RandomUnderSampler(sampling_strategy=0.3, random_state=19) # create a random under sampler object that will reduce the number of majority class samples so that the minority will eb about 30% of the majority and use random_state to make sure that the same rows are selected
 
-X_train_resampled, y_train_resampled = UnderSample.fit_resample(X_train, y_train)
+X_train_resampled, y_train_resampled = UnderSample.fit_resample(X_train, y_train) # have X_train_resampled contains the new training features after removing some majority-class samples and have y_train_resampled contains the corresponding target values
 
 scaler = StandardScaler()
-scaler.fit(X_train_resampled)
+scaler.fit(X_train_resampled) # make calculations using the new resampled training data
 
-X_train = scaler.transform(X_train_resampled)
-X_test = scaler.transform(X_test)
+X_train = scaler.transform(X_train_resampled) # standardize the resampled training data
+X_test = scaler.transform(X_test) # standarize the test data
 
-classifier = KNeighborsClassifier(n_neighbors=11, weights = "distance")
-classifier.fit(X_train, y_train_resampled)
+classifier = KNeighborsClassifier(n_neighbors=11, weights = "distance") #look at the 11 closest trainiing samples and use distance as weights so that closer neighbors have more of an influence on prediction
+classifier.fit(X_train, y_train_resampled) 
 
 y_pred = classifier.predict(X_test)
 
