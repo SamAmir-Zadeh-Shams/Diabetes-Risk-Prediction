@@ -15,12 +15,12 @@ dataset = pd.read_csv("diabetes_prediction_dataset.csv") # create the dataframe 
 
 dataset = pd.get_dummies(dataset) # get data and translate all data that is text into 1s and 0s
 
-y = dataset.pop('diabetes')
-x = dataset
+y = dataset.pop('diabetes') # have the y dataframe only include the 'diabetes' column
+x = dataset # have the x dataframe include all columns except 'diabetes' column
 
-X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.20, stratify=y, random_state= 19)
+X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.20, stratify=y, random_state= 19) # have X_train be 80% of the x dataframe, y_train be 80% of the y database, X_test be 20% of the x database, and y_test be 20% of the y database, use stratify to preserve the original balance of the dataset, and set random_state equal to a number so it uses the same split in the dataset every time
 
-UnderSample = RandomUnderSampler(sampling_strategy=0.3, random_state=19)
+UnderSample = RandomUnderSampler(sampling_strategy=0.3, random_state=19) 
 
 X_train_resampled, y_train_resampled = UnderSample.fit_resample(X_train, y_train)
 
