@@ -8,6 +8,28 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import classification_report, confusion_matrix
 from imblearn.under_sampling import RandomUnderSampler
 
+window = Tk()
+window.geometry("550x500")
+
+window.title("Diabetes Predictor")
+
+frame = Frame(window)
+frame.grid(row=0,column=0)
+
+title = Label(frame, text = "Diabetes Predictor")
+title.grid(row=0, column = 0)
+
+genderTitle = Label(frame, text = "Gender")
+genderTitle.grid(row=1, column = 0)
+
+options = ["--","Male","Female"]
+
+defaultOption  = StringVar()
+defaultOption.set(options[0])
+
+gender = OptionMenu(frame, defaultOption, *options)
+gender.grid(row=1, column=1)
+
 dataset = pd.read_csv("diabetes_prediction_dataset.csv") # create the dataframe using the dataset
 
 # x = dataset.iloc[:, :-1]
@@ -65,3 +87,5 @@ def prediction(age,gender,hypertension,heart_disease,smoking_history,bmi,HbA1c,g
 print(prediction(31,"Male",0,0,"never",27.8,5.6,98))
 
 # print(y.value_counts())
+
+window.mainloop()
