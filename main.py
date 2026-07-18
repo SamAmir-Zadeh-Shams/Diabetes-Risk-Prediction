@@ -19,16 +19,45 @@ frame.grid(row=0,column=0)
 title = Label(frame, text = "Diabetes Predictor")
 title.grid(row=0, column = 0)
 
-genderTitle = Label(frame, text = "Gender")
-genderTitle.grid(row=1, column = 0)
+ageTitle = Label(frame, text = "Age")
+ageTitle.grid(row=1,column=0)
 
-options = ["--","Male","Female"]
+def input_control_age(event):
+  if not event.char.isdigit() and event.keysym != "BackSpace":
+    return "break"
+
+age = Entry(frame, width=3, font=("Helvetica", 24),justify = 'center', bg = "white", fg = "black")
+age.grid(row=1,column=1)
+age.bind("<KeyPress>", input_control_age)
+
+#---------------------------------------------------------------------
+
+genderTitle = Label(frame, text = "Gender")
+genderTitle.grid(row=2, column = 0)
+
+options_gender = ["--","Male","Female"]
 
 defaultOption  = StringVar()
-defaultOption.set(options[0])
+defaultOption.set(options_gender[0])
 
-gender = OptionMenu(frame, defaultOption, *options)
-gender.grid(row=1, column=1)
+gender = OptionMenu(frame, defaultOption, *options_gender)
+gender.grid(row=2, column=1)
+
+#---------------------------------------------------------------------
+
+hypertensionTitle = Label(frame, text = "Gender")
+hypertensionTitle.grid(row=3, column = 0)
+
+options_hypertension = ["--","True","False"]
+
+defaultOption.set(options_hypertension[0])
+
+hypertension = OptionMenu(frame, defaultOption, *options_hypertension)
+hypertension.grid(row=3, column=1)
+
+#---------------------------------------------------------------------
+
+
 
 dataset = pd.read_csv("diabetes_prediction_dataset.csv") # create the dataframe using the dataset
 
@@ -59,6 +88,7 @@ y_pred = classifier.predict(X_test)
 
 # print(confusion_matrix(y_test, y_pred))
 # print(classification_report(y_test, y_pred))
+
 
 def prediction(age,gender,hypertension,heart_disease,smoking_history,bmi,HbA1c,glucose):
   input_data = pd.DataFrame({
