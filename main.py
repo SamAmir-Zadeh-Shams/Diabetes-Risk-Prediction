@@ -23,8 +23,22 @@ ageTitle = Label(frame, text = "Age")
 ageTitle.grid(row=1,column=0)
 
 def input_control_age(event):
-  if not event.char.isdigit() and event.keysym != "BackSpace":
-    return "break"
+  if event.keysym in ("BackSpace", "Delete", "Left", "Right"):
+    return
+  
+  if event.char.isdigit():
+    return
+
+  if event.keysym == ".":
+
+    previousText = event.widget.get()
+
+
+    if "."  in previousText:
+      return "break"
+    return
+  
+  return "break"
 
 age = Entry(frame, width=3, font=("Helvetica", 24),justify = 'center', bg = "white", fg = "black")
 age.grid(row=1,column=1)
@@ -45,14 +59,15 @@ gender.grid(row=2, column=1)
 
 #---------------------------------------------------------------------
 
-hypertensionTitle = Label(frame, text = "Gender")
+hypertensionTitle = Label(frame, text = "Hypertension")
 hypertensionTitle.grid(row=3, column = 0)
 
 options_hypertension = ["--","True","False"]
 
-defaultOption.set(options_hypertension[0])
+defaultOption1  = StringVar()
+defaultOption1.set(options_hypertension[0])
 
-hypertension = OptionMenu(frame, defaultOption, *options_hypertension)
+hypertension = OptionMenu(frame, defaultOption1, *options_hypertension)
 hypertension.grid(row=3, column=1)
 
 #---------------------------------------------------------------------
@@ -114,7 +129,7 @@ def prediction(age,gender,hypertension,heart_disease,smoking_history,bmi,HbA1c,g
 
   return classifier.predict(input_data_scaled)
 
-print(prediction(31,"Male",0,0,"never",27.8,5.6,98))
+#print(prediction(31,"Male",0,0,"never",27.8,5.6,98))
 
 # print(y.value_counts())
 
