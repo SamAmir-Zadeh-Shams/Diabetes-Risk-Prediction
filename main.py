@@ -29,12 +29,12 @@ def input_control_age(event):
   if event.char.isdigit():
     return
 
-  if event.keysym == ".":
+  if event.char == ".":
 
     previousText = event.widget.get()
 
 
-    if "."  in previousText:
+    if "." in previousText:
       return "break"
     return
   
