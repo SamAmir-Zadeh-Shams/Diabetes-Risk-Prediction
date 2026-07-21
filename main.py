@@ -19,10 +19,25 @@ frame.grid(row=0,column=0)
 title = Label(frame, text = "Diabetes Predictor")
 title.grid(row=0, column = 0)
 
-ageTitle = Label(frame, text = "Age")
-ageTitle.grid(row=1,column=0)
-
 def input_control_age(event):
+  if event.keysym in ("BackSpace", "Delete", "Left", "Right"):
+    return
+  
+  if event.char.isdigit():
+    return
+
+  # if event.char == ".":
+
+  #   previousText = event.widget.get()
+
+
+  #   if "." in previousText:
+  #     return "break"
+  #   return
+  
+  return "break"
+
+def input_control(event):
   if event.keysym in ("BackSpace", "Delete", "Left", "Right"):
     return
   
@@ -40,7 +55,11 @@ def input_control_age(event):
   
   return "break"
 
-age = Entry(frame, width=3, font=("Helvetica", 24),justify = 'center', bg = "white", fg = "black")
+
+ageTitle = Label(frame, text = "Age")
+ageTitle.grid(row=1,column=0)
+
+age = Entry(frame, width=5, font=("Helvetica", 24),justify = 'center', bg = "white", fg = "black")
 age.grid(row=1,column=1)
 age.bind("<KeyPress>", input_control_age)
 
@@ -72,6 +91,56 @@ hypertension.grid(row=3, column=1)
 
 #---------------------------------------------------------------------
 
+heart_diseaseTitle = Label(frame, text = "Hypertension")
+heart_diseaseTitle.grid(row=4, column = 0)
+
+options_heart_disease = ["--","True","False"]
+
+defaultOption2  = StringVar()
+defaultOption2.set(options_heart_disease[0])
+
+heart_disease = OptionMenu(frame, defaultOption2, *options_heart_disease)
+heart_disease.grid(row=4, column=1)
+
+#---------------------------------------------------------------------
+
+smoking_historyTitle = Label(frame, text = "Smoking History")
+smoking_historyTitle.grid(row=5, column = 0)
+
+options_smoking_history = ["--","No Info","never","former","current","not current"]
+
+defaultOption3  = StringVar()
+defaultOption3.set(options_smoking_history[0])
+
+smoking_history = OptionMenu(frame, defaultOption3, *options_smoking_history)
+smoking_history.grid(row=5, column=1)
+
+#---------------------------------------------------------------------
+
+bmiTitle = Label(frame, text = "BMI")
+bmiTitle.grid(row=6,column=0)
+
+bmi = Entry(frame, width=5, font=("Helvetica", 24),justify = 'center', bg = "white", fg = "black")
+bmi.grid(row=6,column=1)
+bmi.bind("<KeyPress>", input_control)
+
+#---------------------------------------------------------------------
+
+HbA1c_levelTitle = Label(frame, text = "HbA1c Level")
+HbA1c_levelTitle.grid(row=7,column=0)
+
+HbA1c_level = Entry(frame, width=5, font=("Helvetica", 24),justify = 'center', bg = "white", fg = "black")
+HbA1c_level.grid(row=7,column=1)
+HbA1c_level.bind("<KeyPress>", input_control)
+
+#---------------------------------------------------------------------
+
+blood_glucose_levelTitle = Label(frame, text = "Blood Glucose Level")
+blood_glucose_levelTitle.grid(row=8,column=0)
+
+blood_glucose_level = Entry(frame, width=5, font=("Helvetica", 24),justify = 'center', bg = "white", fg = "black")
+blood_glucose_level.grid(row=8,column=1)
+blood_glucose_level.bind("<KeyPress>", input_control)
 
 
 dataset = pd.read_csv("diabetes_prediction_dataset.csv") # create the dataframe using the dataset
@@ -131,6 +200,55 @@ def prediction(age,gender,hypertension,heart_disease,smoking_history,bmi,HbA1c,g
 
 #print(prediction(31,"Male",0,0,"never",27.8,5.6,98))
 
+def submitButton():
+
+  current_age = age.get()
+  current_gender = defaultOption.get()
+  current_hypertension = defaultOption1.get()
+  current_heart_disease = defaultOption2.get()
+  current_smoking_history = defaultOption3.get()
+  current_bmi = bmi.get()
+  current_hba1c = HbA1c_level.get()
+  current_blood_glucose = blood_glucose_level.get()
+
+  if current_gender != "--" and current_age != "" and current_hypertension != "--" and current_heart_disease != "--" and current_bmi != "" and current_smoking_history != "--" and current_hba1c != "" and current_blood_glucose != "":
+    hyper_num = 1 if current_hypertension == "True" else 0
+    heart_num = 1 if current_heart_disease == "True" else 0 
+
+    age_num = float(current_age)
+    bmi_num = float(current_bmi)
+    HbA1c_level_num = float(current_hba1c)
+    blood_glucose_num = float(current_blood_glucose)
+    
+    result = prediction(age_num,current_gender,hyper_num,heart_num,current_smoking_history,bmi_num,HbA1c_level_num, blood_glucose_num)
+
+    resultInt = int(result[0])
+    print(resultInt)
+    if resultInt == 0:
+      submitLabelMessage.set("You do not have diabetes")
+    else:
+      submitLabelMessage.set("You do have diabetes")
+
+
+
+
+
+
+
+submit = Button(frame, text = "Submit", state = NORMAL, command = lambda: submitButton())
+submit.grid(row=9,column=0)
+
+submitLabelMessage = StringVar()
+
+submitLabel = Label(frame, textvariable = submitLabelMessage)
+submitLabel.grid(row=10,column=0)
+
+
+
+if (prediction(31,"Male",0,0,"never",27.8,5.6,98)) == 1:
+  pass
+else:
+  pass
 # print(y.value_counts())
 
 window.mainloop()
