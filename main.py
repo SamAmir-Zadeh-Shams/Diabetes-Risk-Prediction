@@ -5,7 +5,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
 from imblearn.under_sampling import RandomUnderSampler
 
 window = Tk()
@@ -91,7 +91,7 @@ hypertension.grid(row=3, column=1)
 
 #---------------------------------------------------------------------
 
-heart_diseaseTitle = Label(frame, text = "Hypertension")
+heart_diseaseTitle = Label(frame, text = "Heart Disease")
 heart_diseaseTitle.grid(row=4, column = 0)
 
 options_heart_disease = ["--","True","False"]
@@ -170,8 +170,46 @@ classifier.fit(X_train, y_train_resampled)
 
 y_pred = classifier.predict(X_test)
 
-# print(confusion_matrix(y_test, y_pred))
-# print(classification_report(y_test, y_pred))
+print(confusion_matrix(y_test, y_pred))
+print(classification_report(y_test, y_pred))
+
+accuracy = accuracy_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+f1 = f1_score(y_test, y_pred)
+
+print(f"Accuracy:  {accuracy:.2%}")
+print(f"Precision: {precision:.2%}")
+print(f"Recall:    {recall:.2%}")
+print(f"F1 Score:  {f1:.2%}")
+
+# # Confusion matrix visual
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# cm = confusion_matrix(y_test, y_pred)
+# plt.figure(figsize=(6,4))
+# sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
+#             xticklabels=['Not Diabetic', 'Diabetic'],
+#             yticklabels=['Not Diabetic', 'Diabetic'])
+# plt.xlabel('Predicted')
+# plt.ylabel('Actual')
+# plt.title('Confusion Matrix')
+# plt.tight_layout()
+# plt.savefig('confusion_matrix.png')
+# plt.show()
+
+# # Bar graph of metrics
+# metrics = ['Accuracy', 'Precision', 'Recall', 'F1']
+# values = [accuracy, precision, recall, f1]
+# plt.figure(figsize=(6,4))
+# plt.bar(metrics, values, color=['steelblue', 'orange', 'green', 'red'])
+# plt.ylim(0, 1)
+# plt.title('Model Performance Metrics')
+# plt.ylabel('Score')
+# plt.tight_layout()
+# plt.savefig('metrics_bar.png')
+# plt.show()
 
 
 def prediction(age,gender,hypertension,heart_disease,smoking_history,bmi,HbA1c,glucose):
