@@ -1,3 +1,7 @@
+# Sam Amir-Zadeh-Shams
+# CAI4105
+# Diabetes Risk Prediction using K-Nearest Neighbors
+
 from tkinter import *
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -146,7 +150,7 @@ X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.20, strati
 
 UnderSample = RandomUnderSampler(sampling_strategy=0.3, random_state=19) # create a random under sampler object that will reduce the number of majority class samples so that the minority will eb about 30% of the majority and use random_state to make sure that the same rows are selected
 
-X_train_resampled, y_train_resampled = UnderSample.fit_resample(X_train, y_train) # have X_train_resampled contains the new training features after removing some majority-class samples and have y_train_resampled contains the corresponding target values
+X_train_resampled, y_train_resampled = UnderSample.fit_resample(X_train, y_train) # have X_train_resampled contain the new training features after removing some majority-class samples and have y_train_resampled contain the corresponding target values
 
 scaler = StandardScaler()
 scaler.fit(X_train_resampled) # make calculations using the new resampled training data
